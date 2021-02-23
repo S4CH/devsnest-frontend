@@ -6,9 +6,11 @@ import 'react-multi-carousel/lib/styles.css';
 import './assets/css/index.scss';
 import './assets/css/landing.scss';
 
-import Home from './pages/index';
-import Faq from './pages/faqs';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Landing from './pages/Landing';
+import Faq from './pages/Faqs';
+import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 
 function App() {
@@ -22,17 +24,20 @@ function App() {
   }, []);
 
   return (
-    <>
+    <Router>
       <Navbar />
 
-      <Router>
+      <main>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Landing} />
           <Route exact path="/faqs" component={Faq} />
           <Route exact path="/login" component={Login} />
+          <Route component={NotFound} />
         </Switch>
-      </Router>
-    </>
+      </main>
+
+      <Footer />
+    </Router>
   );
 }
 
