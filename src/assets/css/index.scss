@@ -1,3 +1,9 @@
+$primary: #8264b4;
+$secondary: #ff7d59;
+$light: #f2eff7;
+$dark: #404040;
+$font-family-sans-serif: 'Montserrat', sans-serif;
+
 @import 'bootstrap/scss/bootstrap';
 
 $color-purple: #8367c7;
@@ -49,7 +55,7 @@ body {
   padding: 0 0 0 1.25rem !important;
 
   &:hover {
-    color: #ff7d59 !important;
+    color: $secondary !important;
   }
 }
 
@@ -110,6 +116,99 @@ footer {
       .right-side {
         margin-top: 1rem;
       }
+    }
+  }
+}
+
+body {
+  background-color: #f2eff7;
+}
+
+.login-wrapper {
+  display: flex;
+  background-color: white;
+  margin: 18vh auto;
+  width: 90vw;
+  max-width: 1200px;
+  border-radius: 26px;
+  align-items: center;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.7);
+  -webkit-box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.7);
+
+  .vert-bar {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .bar {
+      width: 1px;
+      flex: 1;
+      background-color: #888;
+    }
+
+    .text {
+      color: #888;
+      margin: 0.5em 0;
+    }
+  }
+
+  .welcome-wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: #404040;
+    border-radius: 25px 0 0 25px;
+    padding: 6em 2.25em;
+  }
+
+  .login-form {
+    padding: 2.5em;
+
+    .form-control {
+      background-color: #f2eff780;
+    }
+  }
+
+  .google-login {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    padding-top: 2.5em;
+  }
+
+  @media only screen and (max-width: 768px) {
+    margin: 4vh 2em;
+    width: calc(100% - 4em);
+    flex-direction: column;
+
+    .welcome-wrapper {
+      background-color: #404040;
+      border-radius: 25px 25px 0 0;
+      padding: 2em 1.5em;
+    }
+
+    .vert-bar {
+      flex-direction: row;
+      width: 100%;
+
+      .bar {
+        width: auto;
+        height: 1px;
+      }
+
+      .text {
+        margin: 0 0.5em;
+      }
+    }
+
+    .login-form {
+      padding: 2.5em 1em;
+    }
+
+    .google-login {
+      padding: 1.5em 0;
+      align-items: center;
     }
   }
 }

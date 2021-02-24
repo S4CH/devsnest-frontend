@@ -1,132 +1,122 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import useActions from '../hooks/useActions';
+import { login } from '../actions/loginActions';
+
 import Welcome from '../assets/images/Group_11.svg';
 import Google from '../assets/images/google.svg';
-import { Link, Redirect } from 'react-router-dom';
-import './Login.css';
-import { useState } from 'react';
 
-export default function Login() {
-  const [userLogin, setUserLogin] = useState({ email: '', password: '' });
-  const [isLogin, setIsLogin] = useState(false);
-  if (isLogin) {
-    return <Redirect to="/curriculum" />;
+function Login() {
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  const loginState = useSelector((state) => state.loginState);
+  const actions = useActions({ login });
+
+  if (loginState.loggedIn) {
+    return <Redirect to="/challenge" />;
   }
-
-  const handleChange = (event) => {
-    setUserLogin({ ...userLogin, [event.target.name]: event.target.value });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => actions.login(), 2500);
   };
 
   return (
-    <div className="main-wrapper row">
-      <div className="welcome-wrapper col-md-3 leftCtn">
-        <div className="leftCtnText">
-          <div id="left-heading">
-            <h2
-              style={{
-                color: 'white',
-                font: 'normal normal 600 20px/24px Montserrat',
-              }}
-            >
-              Welcome Back!
-            </h2>
-          </div>
-          <div id="left-para">
-            <p
-              style={{
-                color: 'white',
-                font: 'normal normal normal 16px/19px Montserrat',
-                letterSpacing: '0px',
-              }}
-            >
-              Login to access the handpicked challenges and see where you stand
-              among your peers.
-            </p>
-          </div>
-        </div>
+    <div className="login">
+      <div className="login-wrapper">
+        <div className="welcome-wrapper col-md-3">
+          <h1 className="h5 text-white mx-2">Welcome Back!</h1>
+          <p className="text-white mt-3 mx-2">
+            Login to access the handpicked challenges and see where you stand
+            among your peers.
+          </p>
 
-        <div>
           <img
             src={Welcome}
-            id="welcome-illustrator"
-            alt="Welcome-illustrator"
-            className="img-fluid mx-auto"
-          ></img>
+            alt="welcome illustration"
+            className="img-fluid mx-auto mt-4"
+          />
         </div>
-      </div>
 
-      <div className="login-form col-md-6 ">
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              className="form-control"
-              placeholder="Enter email"
-              onChange={handleChange}
-              value={userLogin.email}
+        <div className="col-md-9 row">
+          <div className="col-md-8 login-form">
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label className="text-muted" htmlFor="email">
+                  Email or Phone Number
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="text-muted" htmlFor="password">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  name="password"
+                  className="form-control"
+                  value={pass}
+                  onChange={(e) => setPass(e.target.value)}
+                  required
+                />
+              </div>
+
+              <Link to="/" className="text-primary">
+                Forgot Password?
+              </Link>
+
+              <button
+                type="submit"
+                className="btn btn-primary btn-lg btn-block mt-3"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Loading...' : 'Login'}
+              </button>
+            </form>
+          </div>
+
+          <div className="vert-bar">
+            <div className="bar" />
+
+            <div className="text">OR</div>
+
+            <div className="bar" />
+          </div>
+
+          <div className="col-md google-login">
+            <p className="text-dark">Sign in using:</p>
+            <img
+              src={Google}
+              className="img-fluid mb-auto"
+              alt="Sign in using Google"
+              width="160px"
             />
+
+            <Link className="text-primary my-4" to="/signup">
+              <span>
+                New to Devsnest?
+                <br />
+                Create an account
+              </span>
+            </Link>
           </div>
-
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              className="form-control"
-              placeholder="Enter password"
-              onChange={handleChange}
-              value={userLogin.password}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <div className="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="customCheck1"
-              />
-              <Link style={{ color: '#8264B4' }}>Forgot Password?</Link>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="btn btn-dark btn-lg btn-block submit-btn"
-          >
-            Login
-          </button>
-        </form>
-      </div>
-      <div class="vertical-divider">or</div>
-      <div className="google-wrapper col-md-2">
-        <p>Sign in using :</p>
-        <img
-          src={Google}
-          id="google-logo"
-          className="img-fluid mx-auto my-auto"
-          alt="Sign in using Google"
-        ></img>
-        <br />
-
-        <Link
-          style={{
-            color: '#8264B4',
-            fontSize: '16',
-            position: 'relative',
-            top: '25%',
-          }}
-        >
-          {' '}
-          <span>New to Devsnest? Create an account</span>
-        </Link>
+        </div>
       </div>
     </div>
   );
 }
+
+export default Login;

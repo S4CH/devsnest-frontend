@@ -60,7 +60,7 @@ function Navbar() {
           alt="Devsnest logo"
           height="72"
           width="72"
-          class="d-inline-block align-top nav-logo"
+          className="d-inline-block align-top nav-logo"
         />
       </Link>
 
@@ -68,8 +68,8 @@ function Navbar() {
 
       <Collapse isOpen={isOpen} navbar>
         <BSNav className={!loginState.loggedIn ? '' : ''} navbar>
-          {navItems.map((item) => (
-            <NavItem key={item.id}>
+          {navItems.map((item, index) => (
+            <NavItem key={index}>
               <Link
                 to={item.to}
                 smooth
