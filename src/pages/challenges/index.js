@@ -11,6 +11,10 @@ import useSecondStateChange from '../../utils/useSecondStageChange';
 import { submitQuestion } from '../../services/submission';
 import axios from '../../config/axios.config';
 import { API_ENDPOINTS } from '../../constants/api';
+import { usePagination } from '../../hooks/usePagination';
+import Pagination from '../../components/Pagination/Pagination';
+
+const PAGE_SIZE = 10;
 
 const initalQuestionState = {
   title: '',
@@ -85,6 +89,11 @@ function Challenges(props) {
   const [topics, setTopics] = useState([]);
   const [reportData, setReportData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+
+  const { jump, currentData, currentPage, maxPage } = usePagination(
+    questions,
+    PAGE_SIZE
+  );
 
   const isSecondRender = useSecondStateChange(topics);
 
@@ -190,16 +199,24 @@ function Challenges(props) {
 
         <div className="section-wrapper row mt-4">
           <section className="questions col-lg-9 col-md-12 order-lg-1 order-md-2 order-sm-2 order-2">
-            {questions.map((question, index) => {
+            {currentData().map((question, index) => {
               return (
                 <Question
                   onSubmitStatus={onSubmitQuestion}
                   {...question}
-                  index={index + 1}
+                  index={(currentPage - 1) * PAGE_SIZE + index + 1}
                   key={question.id}
                 />
               );
             })}
+
+            <div className="pagination">
+              <Pagination
+                jump={jump}
+                currentPage={currentPage}
+                maxPage={maxPage}
+              />
+            </div>
           </section>
           <div className="col-lg-3 col-md-12 order-lg-2 order-md-1 order-sm-1 order-1">
             <section className="questions">
